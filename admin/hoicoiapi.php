@@ -11,7 +11,7 @@
 //--No direct access
 defined('_JEXEC') or die('Resrtricted Access');
 ?>
-<h2>Here are some example</h2>
+<h2>Here are some examples</h2>
 <table>
 	<tr>
 		<td><b>Service</b></td>
