@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade" version="1.6">
+	<name>Hoicoiapi</name>
+	<creationDate>2014-09-14</creationDate>
+	<author>Jibon Lawrence Costa</author>
+	<authorEmail>jiboncosta57@gmail.com</authorEmail>
+	<authorUrl>www.hoicoimasti.com</authorUrl>
+	<copyright>Copyright (C) 2014  Open Source Matters. All rights reserved.</copyright>	
+	<license>GNU General Public License version 2 or later</license>
+	<version>2.0</version>
+	<description>With this component you will get json output of Joomla articles, categories and virtuemart products, categories</description>
+
+	<files folder="site">
+			<filename>hoicoiapi.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>	
+			<folder>views</folder>	
+	
+	</files>	
+	<administration>
+		<menu link="index.php?option=com_hoicoiapi">Hoicoiapi</menu>
+
+		<files folder="admin">
+			<filename>index.html</filename>	
+			<filename>hoicoiapi.php</filename>	
+		</files>
+				
+	</administration>
+</extension>
