@@ -227,16 +227,16 @@ class hoicoiapiController extends JControllerLegacy
 
 		$db = &JFactory::getDBO(); 
 		$db->setQuery($query);
-		$row = $db->loadRowList();
+		$row = $db->loadAssocList();
 
 		foreach($row as $val) {
-		  $row_array['article_id'] = $val[0];
-		  $row_array['title'] = $val[2];
-		  $row_array['introtext'] = htmlspecialchars($val[5],ENT_QUOTES);
-		  $row_array['fulltext'] = htmlspecialchars($val[7],ENT_QUOTES);
-		  $row_array['language'] =$val[32];
-		  $row_array['featured'] =$val[31];
-		  $row_array['hits'] =$val[29];
+		  $row_array['article_id'] = $val['id'];
+		  $row_array['title'] = $val['title'];
+		  $row_array['introtext'] = htmlspecialchars($val['introtext'],ENT_QUOTES);
+		  $row_array['fulltext'] = htmlspecialchars($val['fulltext'],ENT_QUOTES);
+		  $row_array['language'] =$val['language'];
+		  $row_array['featured'] =$val['featured'];
+		  $row_array['hits'] =$val['hits'];
 
 		  array_push($return_arr,$row_array);
 		}
@@ -256,16 +256,16 @@ class hoicoiapiController extends JControllerLegacy
 
 		$db = &JFactory::getDBO(); 
 		$db->setQuery($query);
-		$row = $db->loadRowList();
+		$row = $db->loadAssocList();
 
 		foreach($row as $val) {
-		  $row_array['article_id'] = $val[0];
-		  $row_array['title'] = $val[2];
-		  $row_array['introtext'] = htmlspecialchars($val[5],ENT_QUOTES);
-		  $row_array['fulltext'] = htmlspecialchars($val[7],ENT_QUOTES);
-		  $row_array['language'] =$val[32];
-		  $row_array['featured'] =$val[31];
-		  $row_array['hits'] =$val[29];
+		  $row_array['article_id'] = $val['id'];
+		  $row_array['title'] = $val['title'];
+		  $row_array['introtext'] = htmlspecialchars($val['introtext'],ENT_QUOTES);
+		  $row_array['fulltext'] = htmlspecialchars($val['fulltext'],ENT_QUOTES);
+		  $row_array['language'] =$val['language'];
+		  $row_array['featured'] =$val['featured'];
+		  $row_array['hits'] =$val['hits'];
 
 		  array_push($return_arr,$row_array);
 		}
