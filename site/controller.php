@@ -125,7 +125,7 @@ class hoicoiapiController extends JControllerLegacy
 		$app = JFactory::getApplication();
 		$credentials = array();
 		$credentials['username'] = $app->input->get('username');
-		$credentials['password'] = $app->input->get('pass');
+		$credentials['password'] = $app->input->get('pass','','STRING');
 
 		if (true === $app->login($credentials, $options)) {
 			// Success
@@ -157,7 +157,7 @@ class hoicoiapiController extends JControllerLegacy
 		$jinput = JFactory::getApplication()->input;
 		$name = $jinput->get('name');
 		$username = $jinput->get('username');
-		$passwd = $jinput->get('passwd');
+		$passwd = $jinput->get('passwd','','STRING');
 		$email = $jinput->get('email','','STRING');
 		$data = array(
 			  "name"=>$name,
