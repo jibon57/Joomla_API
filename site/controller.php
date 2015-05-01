@@ -119,13 +119,13 @@ class hoicoiapiController extends JControllerLegacy
 		jexit();
 	}
 
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=login&username=test&pass=test
+		//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=login&username=test&pass=test
 	public function login()
 	{
 		$app = JFactory::getApplication();
 		$credentials = array();
-		$credentials['username'] = JRequest::getVar('username');
-		$credentials['password'] = JRequest::getString('pass');
+		$credentials['username'] = $app->input->get('username');
+		$credentials['password'] = $app->input->get('pass');
 
 		if (true === $app->login($credentials, $options)) {
 			// Success
@@ -154,11 +154,11 @@ class hoicoiapiController extends JControllerLegacy
 	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=registration&name=NAME&username=USERNAME&passwd=PASSWORD&email=EMAIL
 	public function registration()
 	{
-		$name = JRequest::getVar('name');
-		$username = JRequest::getVar('username');
-		$passwd = JRequest::getString('pass');
-		$email = JRequest::getVar('email');
-
+		$jinput = JFactory::getApplication()->input;
+		$name = $jinput->get('name');
+		$username = $jinput->get('username');
+		$passwd = $jinput->get('passwd');
+		$email = $jinput->get('email','','STRING');
 		$data = array(
 			  "name"=>$name,
 			  "username"=>$username,
@@ -167,27 +167,27 @@ class hoicoiapiController extends JControllerLegacy
 			  "email"=>$email,
 			  "block"=>0,
 			  "groups"=>array("2")
-      		);
-
-	    $user = new JUser;
-	    //Write to database
-	    if(!$user->bind($data)) {
-	        $status = "Could not bind data. Error: " . $user->getError();
-        }
-        if (!$user->save()) {
-          $status = "Could not save user. Error: " . $user->getError();
-        }
-        else {
-	      $status = "Success";
-        }
-
-        $message = array(
-        	'message' => $status
-        	);
-
-        header('Content-Type: application/json');
-        echo json_encode ($message);
-        jexit();
+	  		);
+	    
+	        $user = new JUser;
+	        //Write to database
+	        if(!$user->bind($data)) {
+	        	$status = "Could not bind data. Error: " . $user->getError();
+        	  }
+		if (!$user->save()) {
+			 $status = "Could not save user. Error: " . $user->getError();
+	    	}
+	     	else {
+		  $status = "Success";
+	    	}
+	
+		 $message = array(
+	        	'message' => $status
+		 );
+	
+		 header('Content-Type: application/json');
+		 echo json_encode ($message);
+		 jexit();
     }
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=art_categories
