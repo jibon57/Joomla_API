@@ -26,7 +26,7 @@ class hoicoiapiController extends JControllerLegacy
 	{
 		$return_arr = array();
 		$jinput = JFactory::getApplication()->input;
-		$lan = $jinput->get('lan','en_gb');
+		$lan = $jinput->get('lan','en_gb','STRING');
 
 		$query= "SELECT a.virtuemart_category_id, a.category_name, a.category_description, b.virtuemart_category_id, c.virtuemart_media_id, c.file_url FROM #__virtuemart_categories_{$lan} a INNER JOIN #__virtuemart_category_medias b ON (a.virtuemart_category_id = b.virtuemart_category_id) INNER JOIN #__virtuemart_medias c ON (c.virtuemart_media_id=b.virtuemart_media_id AND a.virtuemart_category_id IS NOT NULL AND a.virtuemart_category_id <> '')";
 
@@ -54,7 +54,7 @@ class hoicoiapiController extends JControllerLegacy
 	{
 		$jinput = JFactory::getApplication()->input;
 		$id = $jinput->get('catid',6); //category id
-		$lan = $jinput->get('lan','en_gb',STRING);
+		$lan = $jinput->get('lan','en_gb','STRING');
 		$return_arr = array();
 		$query= "SELECT a.virtuemart_category_id,a.virtuemart_product_id,b.product_name,b.product_desc, c.product_price,d.virtuemart_media_id,e.file_url,f.shopper_group_name,c.virtuemart_shoppergroup_id FROM #__virtuemart_product_categories a LEFT JOIN #__virtuemart_products_{$lan} b ON a.virtuemart_product_id=b.virtuemart_product_id LEFT JOIN  #__virtuemart_product_prices c ON b.virtuemart_product_id=c.virtuemart_product_id LEFT JOIN 
 		#__virtuemart_product_medias d ON b.virtuemart_product_id=d.virtuemart_product_id LEFT JOIN
@@ -91,7 +91,7 @@ class hoicoiapiController extends JControllerLegacy
 	{
 		$jinput = JFactory::getApplication()->input;
 		$prodid = $jinput->get('id',66);
-		$lan = $jinput->get('lan','en_gb',STRING);
+		$lan = $jinput->get('lan','en_gb','STRING');
 		$return_arr = array();
 
 		$query= "SELECT a.virtuemart_product_id,b.product_name,b.product_desc,c.product_price,f.shopper_group_name,d.virtuemart_media_id,e.file_url,c.virtuemart_shoppergroup_id FROM #__virtuemart_product_categories a LEFT JOIN #__virtuemart_products_{$lan} b ON a.virtuemart_product_id=b.virtuemart_product_id LEFT JOIN  #__virtuemart_product_prices c ON b.virtuemart_product_id=c.virtuemart_product_id LEFT JOIN 
