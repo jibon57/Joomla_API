@@ -25,7 +25,8 @@ class hoicoiapiController extends JControllerLegacy
 	public function vmcategories()
 	{
 		$return_arr = array();
-		$lan = JRequest::getVar('lan','en_gb');
+		$jinput = JFactory::getApplication()->input;
+		$lan = $jinput->get('lan','en_gb');
 
 		$query= "SELECT a.virtuemart_category_id, a.category_name, a.category_description, b.virtuemart_category_id, c.virtuemart_media_id, c.file_url FROM #__virtuemart_categories_{$lan} a INNER JOIN #__virtuemart_category_medias b ON (a.virtuemart_category_id = b.virtuemart_category_id) INNER JOIN #__virtuemart_medias c ON (c.virtuemart_media_id=b.virtuemart_media_id AND a.virtuemart_category_id IS NOT NULL AND a.virtuemart_category_id <> '')";
 
@@ -51,8 +52,9 @@ class hoicoiapiController extends JControllerLegacy
 	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=vmproducts&lan=en_gb&catid=6
 	public function vmproducts()
 	{
-		$id = JRequest::getInt('catid',6); //category id
-		$lan = JRequest::getVar('lan','en_gb');
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('catid',6); //category id
+		$lan = $jinput->get('lan','en_gb',STRING);
 		$return_arr = array();
 		$query= "SELECT a.virtuemart_category_id,a.virtuemart_product_id,b.product_name,b.product_desc, c.product_price,d.virtuemart_media_id,e.file_url,f.shopper_group_name,c.virtuemart_shoppergroup_id FROM #__virtuemart_product_categories a LEFT JOIN #__virtuemart_products_{$lan} b ON a.virtuemart_product_id=b.virtuemart_product_id LEFT JOIN  #__virtuemart_product_prices c ON b.virtuemart_product_id=c.virtuemart_product_id LEFT JOIN 
 		#__virtuemart_product_medias d ON b.virtuemart_product_id=d.virtuemart_product_id LEFT JOIN
@@ -87,8 +89,9 @@ class hoicoiapiController extends JControllerLegacy
 	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=vmsingle_product&lan=en_gb&id=62
 	public function vmsingle_product()
 	{
-		$prodid = JRequest::getInt('id',66);
-		$lan = JRequest::getVar('lan','en_gb');
+		$jinput = JFactory::getApplication()->input;
+		$prodid = $jinput->get('id',66);
+		$lan = $jinput->get('lan','en_gb',STRING);
 		$return_arr = array();
 
 		$query= "SELECT a.virtuemart_product_id,b.product_name,b.product_desc,c.product_price,f.shopper_group_name,d.virtuemart_media_id,e.file_url,c.virtuemart_shoppergroup_id FROM #__virtuemart_product_categories a LEFT JOIN #__virtuemart_products_{$lan} b ON a.virtuemart_product_id=b.virtuemart_product_id LEFT JOIN  #__virtuemart_product_prices c ON b.virtuemart_product_id=c.virtuemart_product_id LEFT JOIN 
@@ -124,7 +127,7 @@ class hoicoiapiController extends JControllerLegacy
 	{
 		$app = JFactory::getApplication();
 		$credentials = array();
-		$credentials['username'] = $app->input->get('username');
+		$credentials['username'] = $app->input->get('username','','USERNAME');
 		$credentials['password'] = $app->input->get('pass','','STRING');
 
 		if (true === $app->login($credentials, $options)) {
@@ -156,7 +159,7 @@ class hoicoiapiController extends JControllerLegacy
 	{
 		$jinput = JFactory::getApplication()->input;
 		$name = $jinput->get('name');
-		$username = $jinput->get('username');
+		$username = $jinput->get('username','','USERNAME');
 		$passwd = $jinput->get('passwd','','STRING');
 		$email = $jinput->get('email','','STRING');
 		$data = array(
@@ -220,7 +223,8 @@ class hoicoiapiController extends JControllerLegacy
 	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=articles&catid=2
 	public function articles()
 	{
-		$cat_id= JRequest::getInt('catid',2);
+		$jinput = JFactory::getApplication()->input;
+		$cat_id= $jinput->get('catid',2);
 		$return_arr = array();
 
 		$query= "SELECT * FROM #__content WHERE catid=$cat_id AND state='1'";
@@ -249,7 +253,8 @@ class hoicoiapiController extends JControllerLegacy
 	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=single_article&id=1
 	public function single_article()
 	{
-		$id = JRequest::getInt('id',1);
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id',1);
 		$return_arr = array();
 
 		$query= "SELECT * FROM `#__content` WHERE `id` = $id ";
@@ -304,7 +309,8 @@ class hoicoiapiController extends JControllerLegacy
 	public function k2_items(){
 		
 		$return_arr = array();
-		$catid = JRequest::getInt('catid',1);
+		$jinput = JFactory::getApplication()->input;
+		$catid = $jinput->get('catid',1);
 		$query = "SELECT id,title,introtext,language,featured FROM `#__k2_items` WHERE `published` = 1 AND `catid` = $catid";
 
 		$db = &JFactory::getDBO(); 
@@ -329,7 +335,8 @@ class hoicoiapiController extends JControllerLegacy
 	public function k2_single_item(){
 		
 		$return_arr = array();
-		$id = JRequest::getInt('id',1);
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id',1);
 		$query = "SELECT id,title,introtext,language,featured FROM `#__k2_items` WHERE `published` = 1 AND `id` = $id";
 
 		$db = &JFactory::getDBO(); 
@@ -378,7 +385,8 @@ class hoicoiapiController extends JControllerLegacy
 	//index.php?option=com_hoicoiapi&task=easyblog_posts&catid=1
 	public function easyblog_posts(){
 		
-		$cat_id = JRequest::getInt('catid',1);
+		$jinput = JFactory::getApplication()->input;
+		$cat_id = $jinput->get('catid',1);
 		$return_arr = array();
 		$query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `category_id` = $cat_id";
 
@@ -408,7 +416,8 @@ class hoicoiapiController extends JControllerLegacy
 	//index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1
 	public function easyblog_single_post(){
 		
-		$id = JRequest::getInt('id',1);
+		$jinput = JFactory::getApplication()->input;
+		$id = $jinput->get('id',1);
 		$return_arr = array();
 		$query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `id` = $id";
 
