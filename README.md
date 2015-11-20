@@ -13,4 +13,4 @@ What can you do with this ?
 </pre>
  
 
-More: https://extensions.hoicoimasti.com/products/8-joomla-extension/3-joomla-api-for-mobile-apps-android,-iphone-ipad-external-site.html
+More: https://www.hoicoimasti.com/products/8-joomla-extension/3-joomla-api-for-mobile-apps-android,-iphone-ipad-external-site.html
