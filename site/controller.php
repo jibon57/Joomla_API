@@ -207,7 +207,7 @@ class hoicoiapiController extends JControllerLegacy {
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getkunena
     public function getkunena() {
-        if (!file_exists(include_once JPATH_ROOT . '/components/com_kunena/models/category.php')) {
+        if (!file_exists(JPATH_ROOT . '/libraries/kunena/attachment/helper.php')) {
             jexit("You don't have install Kunena");
         }
         include_once JPATH_ROOT . '/components/com_kunena/models/category.php';
