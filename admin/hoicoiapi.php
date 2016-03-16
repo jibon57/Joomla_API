@@ -27,39 +27,39 @@ defined('_JEXEC') or die('Resrtricted Access');
 	</tr>
 	<tr>
 		<td>Article Categories</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=art_categories" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=art_categories</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getContents" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getContents</a></td>
 	</tr>
 	<tr>
 		<td>Article of a Category</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=articles&catid=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=articles&catid=2</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getContents&catid=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getContents&catid=2</a></td>
 	</tr>
 	<tr>
 		<td>Single Article</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=single_article&id=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=single_article&id=1</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getContents&id=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getContents&id=1</a></td>
 	</tr>
 	<tr>
 		<td>Virtuemart Categories</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=vmcategories&lan=en_gb" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=vmcategories&lan=en_gb</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getVM&lan=en_gb" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getVM&lan=en_gb</a></td>
 	</tr>
 	<tr>
 		<td>Virtuemart Products in a Category</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=vmproducts&lan=en_gb&catid=6" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=vmproducts&lan=en_gb&catid=6</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getVM&lan=en_gb&catid=6" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getVM&lan=en_gb&catid=6</a></td>
 	</tr>
 	<tr>
 		<td>Virtuemart Single Product</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=vmsingle_product&lan=en_gb&id=62" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=vmsingle_product&lan=en_gb&id=62</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getVM&lan=en_gb&id=62" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getVM&lan=en_gb&id=62</a></td>
 	</tr>
 	<tr>
 		<td>K2 Categories</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=k2_categories" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=k2_categories</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getK2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getK2</a></td>
 	</tr>
 	<tr>
 		<td>K2 Items in a category</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=k2_items&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=k2_items&catid=1</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getK2&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getK2&catid=1</a></td>
 	</tr>
 	<tr>
 		<td>K2 Single Items</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=k2_single_item&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=k2_single_item&id=2</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getK2&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getK2&id=2</a></td>
 	</tr>
 	<tr>
 		<td>Easyblog Categories</td>
@@ -72,6 +72,30 @@ defined('_JEXEC') or die('Resrtricted Access');
 	<tr>
 		<td>Easyblog Single Post</td>
 		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1</a></td>
+	</tr>
+	<tr>
+		<td>Kunena Categories</td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana</a></td>
+	</tr>
+	<tr>
+		<td>Kunena Items in a category</td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&catid=1</a></td>
+	</tr>
+	<tr>
+		<td>Kunena Single Items</td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&id=2</a></td>
+	</tr>
+	<tr>
+		<td>HikaShop Categories</td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika</a></td>
+	</tr>
+	<tr>
+		<td>HikaShop Items in a category</td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&catid=1</a></td>
+	</tr>
+	<tr>
+		<td>HikaShop Single Items</td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&id=2</a></td>
 	</tr>
 </table>	
 

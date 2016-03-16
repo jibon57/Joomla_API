@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    hoicoiapi
  * @subpackage Base
@@ -6,10 +7,8 @@
  * @author     Created on 14-Sep-2014
  * @license    GNU/GPL
  */
-
 //-- No direct access
 defined('_JEXEC') || die('=;)');
-
 
 /**
  * hoicoiapi Controller.
@@ -17,431 +16,423 @@ defined('_JEXEC') || die('=;)');
  * @package    hoicoiapi
  * @subpackage Controllers
  */
-class hoicoiapiController extends JControllerLegacy
-{
+class hoicoiapiController extends JControllerLegacy {
 
-	
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=vmcategories&lan=en_gb
-	public function vmcategories()
-	{
-		$return_arr = array();
-		$jinput = JFactory::getApplication()->input;
-		$lan = $jinput->get('lan','en_gb','STRING');
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=login&username=test&pass=test
+    public function login() {
 
-		$query= "SELECT a.virtuemart_category_id, a.category_name, a.category_description, b.virtuemart_category_id, c.virtuemart_media_id, c.file_url FROM #__virtuemart_categories_{$lan} a INNER JOIN #__virtuemart_category_medias b ON (a.virtuemart_category_id = b.virtuemart_category_id) INNER JOIN #__virtuemart_medias c ON (c.virtuemart_media_id=b.virtuemart_media_id AND a.virtuemart_category_id IS NOT NULL AND a.virtuemart_category_id <> '')";
+        $app = JFactory::getApplication();
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
+        $credentials = array(
+            'username' => $app->input->get('username', '', 'USERNAME'),
+            'password' => $app->input->get('pass', '', 'STRING')
+        );
 
-		foreach($row as $val) {
-		  $row_array['virtuemart_category_id'] = $val[0];
-		  $row_array['category_name'] = $val[1];
-		  $row_array['category_description'] =htmlspecialchars($val[2],ENT_QUOTES);
-		  $row_array['file_url'] = $val[5];
-
-		  array_push($return_arr,$row_array);
-		}
-		
-		header('Content-Type: application/json');	
-		echo json_encode($return_arr);
-		jexit();
-	}
-
-
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=vmproducts&lan=en_gb&catid=6
-	public function vmproducts()
-	{
-		$jinput = JFactory::getApplication()->input;
-		$id = $jinput->get('catid',6); //category id
-		$lan = $jinput->get('lan','en_gb','STRING');
-		$return_arr = array();
-		$query= "SELECT a.virtuemart_category_id,a.virtuemart_product_id,b.product_name,b.product_desc, c.product_price,d.virtuemart_media_id,e.file_url,f.shopper_group_name,c.virtuemart_shoppergroup_id FROM #__virtuemart_product_categories a LEFT JOIN #__virtuemart_products_{$lan} b ON a.virtuemart_product_id=b.virtuemart_product_id LEFT JOIN  #__virtuemart_product_prices c ON b.virtuemart_product_id=c.virtuemart_product_id LEFT JOIN 
-		#__virtuemart_product_medias d ON b.virtuemart_product_id=d.virtuemart_product_id LEFT JOIN
-		#__virtuemart_medias e ON d.virtuemart_media_id=e.virtuemart_media_id LEFT JOIN #__virtuemart_shoppergroups f ON c.virtuemart_shoppergroup_id=f.virtuemart_shoppergroup_id WHERE b.product_name IS NOT NULL AND a.virtuemart_category_id= $id ";
-
-		$db = &JFactory::getDBO(); // get database objec
-		$db->setQuery($query);
-		$row = $db->loadRowList();
-
-		foreach($row as $val) {
-
-			if ($val[7] == null){
-				$val[7] = "default";
-			}
-		      
-		    $row_array['virtuemart_product_id'] = $val[1];
-			$row_array['product_name'] = $val[2];
-			$row_array['product_desc'] =htmlspecialchars($val[3],ENT_QUOTES);
-			$row_array['product_price'] = $val[4];
-			$row_array['shopper_group_name'] = $val[7];
-			$row_array['shopper_group_id'] = $val[8];
-			$row_array['file_url'] = $val[6];
-			
-		  array_push($return_arr,$row_array);
-		}
-
-		header('Content-Type: application/json');		 
-		echo json_encode($return_arr);
-		jexit();
-	}
-
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=vmsingle_product&lan=en_gb&id=62
-	public function vmsingle_product()
-	{
-		$jinput = JFactory::getApplication()->input;
-		$prodid = $jinput->get('id',66);
-		$lan = $jinput->get('lan','en_gb','STRING');
-		$return_arr = array();
-
-		$query= "SELECT a.virtuemart_product_id,b.product_name,b.product_desc,c.product_price,f.shopper_group_name,d.virtuemart_media_id,e.file_url,c.virtuemart_shoppergroup_id FROM #__virtuemart_product_categories a LEFT JOIN #__virtuemart_products_{$lan} b ON a.virtuemart_product_id=b.virtuemart_product_id LEFT JOIN  #__virtuemart_product_prices c ON b.virtuemart_product_id=c.virtuemart_product_id LEFT JOIN 
-		#__virtuemart_product_medias d ON b.virtuemart_product_id=d.virtuemart_product_id LEFT JOIN
-		#__virtuemart_medias e ON d.virtuemart_media_id=e.virtuemart_media_id LEFT JOIN #__virtuemart_shoppergroups f ON c.virtuemart_shoppergroup_id=f.virtuemart_shoppergroup_id WHERE a.virtuemart_product_id = $prodid";
-
-		$db = &JFactory::getDBO(); // get database objec
-		$db->setQuery($query);
-		$row = $db->loadRowList();
-		
-		foreach($row as $val){
-			if ($val[4] == null){
-				$val[4] = "default";
-			}
-
-			$row_array['product_name'] = $val[1];
-			$row_array['product_desc'] =htmlspecialchars($val[2],ENT_QUOTES);
-			$row_array['product_price'] = $val[3];
-			$row_array['shopper_group_name'] = $val[4];
-			$row_array['shopper_group_id'] = $val[7];
-			$row_array['file_url'] = $val[6];
-			
-		  array_push($return_arr,$row_array);
-		}
-
-		header('Content-Type: application/json');		 
-		echo json_encode($return_arr);
-		jexit();
-	}
-
-		//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=login&username=test&pass=test
-	public function login()
-	{
-		$app = JFactory::getApplication();
-		$credentials = array();
-		$credentials['username'] = $app->input->get('username','','USERNAME');
-		$credentials['password'] = $app->input->get('pass','','STRING');
-
-		if (true === $app->login($credentials, $options)) {
-			// Success
-			$user =& JFactory::getUser();
-			$data = array(
-					'message' => 'success',
-					'id' => $user->id,
-					'username' => $user->username,
-					'name' => $user->name,
-					'email' => $user->email,
-					'group' => $user->groups
-				);			
-			
-		} else {
-			// login failed
-			$data = array(
-					'message' => 'login failed'
-				);
-						
-		}
-		header('Content-Type: application/json');
-		echo json_encode($data);
-		jexit();
-	}
-	
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=registration&name=NAME&username=USERNAME&passwd=PASSWORD&email=EMAIL
-	public function registration()
-	{
-		$jinput = JFactory::getApplication()->input;
-		$name = $jinput->get('name');
-		$username = $jinput->get('username','','USERNAME');
-		$passwd = $jinput->get('passwd','','STRING');
-		$email = $jinput->get('email','','STRING');
-		$data = array(
-			  "name"=>$name,
-			  "username"=>$username,
-			  "password"=>$passwd,
-			  "password2"=>$passwd,
-			  "email"=>$email,
-			  "block"=>0,
-			  "groups"=>array("2")
-	  		);
-	    
-	        $user = new JUser;
-	        //Write to database
-	        if(!$user->bind($data)) {
-	        	$status = "Could not bind data. Error: " . $user->getError();
-        	  }
-		if (!$user->save()) {
-			 $status = "Could not save user. Error: " . $user->getError();
-	    	}
-	     	else {
-		  $status = "Success";
-	    	}
-	
-		 $message = array(
-	        	'message' => $status
-		 );
-	
-		 header('Content-Type: application/json');
-		 echo json_encode ($message);
-		 jexit();
+        if ($app->login($credentials)) {
+            // Success
+            $user = JFactory::getUser();
+            $data = array(
+                'message' => 'success',
+                'id' => $user->id,
+                'username' => $user->username,
+                'name' => $user->name,
+                'email' => $user->email,
+                'group' => $user->groups
+            );
+        } else {
+            // login failed
+            $data = array(
+                'message' => 'login failed'
+            );
+        }
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        jexit();
     }
 
-    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=art_categories
-    public function art_categories()
-    {
-    	$return_arr = array();
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=registration&name=NAME&username=USERNAME&passwd=PASSWORD&email=EMAIL
+    public function registration() {
 
-		$query = "SELECT id,parent_id,path,extension,title,description,language FROM #__categories WHERE extension='com_content' AND published='1'";
+        $input = $this->input;
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
+        $name = $input->get('name', '', 'STRING');
+        $username = $input->get('username', '', 'USERNAME');
+        $passwd = $input->get('passwd', '', 'STRING');
+        $email = $input->get('email', '', 'STRING');
 
-		foreach($row as $val) {
-		  $row_array['article_category_id'] = $val[0];
-		  $row_array['parent_id'] = $val[1];
-		  $row_array['path'] = $val[2];
-		  $row_array['category_name'] = $val[4];
-		  $row_array['category_description'] =htmlspecialchars($val[5],ENT_QUOTES);
-		  $row_array['language'] =$val[6];
+        $requestData = array(
+            "name" => $name,
+            "username" => $username,
+            "password1" => $passwd,
+            "email1" => $email,
+        );
 
-		  array_push($return_arr,$row_array);
-		}
-		  
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+        include_once JPATH_ROOT . '/components/com_users/models/registration.php';
+        JFactory::getLanguage()->load('com_users');
+        $model = new UsersModelRegistration();
+        $register = $model->register($requestData);
 
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=articles&catid=2
-	public function articles()
-	{
-		$jinput = JFactory::getApplication()->input;
-		$cat_id= $jinput->get('catid',2);
-		$return_arr = array();
+        if ($register === false) {
+            $status = $model->getError();
+        } else {
+            $status = "Success";
+        }
 
-		$query= "SELECT * FROM #__content WHERE catid=$cat_id AND state='1'";
+        $message = array(
+            'message' => $status
+        );
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadAssocList();
+        header('Content-Type: application/json');
+        echo json_encode($message);
+        jexit();
+    }
 
-		foreach($row as $val) {
-		  $row_array['article_id'] = $val['id'];
-		  $row_array['title'] = $val['title'];
-		  $row_array['introtext'] = htmlspecialchars($val['introtext'],ENT_QUOTES);
-		  $row_array['fulltext'] = htmlspecialchars($val['fulltext'],ENT_QUOTES);
-		  $row_array['language'] =$val['language'];
-		  $row_array['featured'] =$val['featured'];
-		  $row_array['hits'] =$val['hits'];
+    //index.php?option=com_hoicoiapi&task=easyblog_categories
+    public function easyblog_categories() {
 
-		  array_push($return_arr,$row_array);
-		}
-	  
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+        $return_arr = array();
+        $query = "SELECT id,title,description,avatar,parent_id,private FROM `#__easyblog_category` WHERE `published` = 1 ";
 
-	//http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=single_article&id=1
-	public function single_article()
-	{
-		$jinput = JFactory::getApplication()->input;
-		$id = $jinput->get('id',1);
-		$return_arr = array();
+        $db = &JFactory::getDBO();
+        $db->setQuery($query);
+        $row = $db->loadRowList();
 
-		$query= "SELECT * FROM `#__content` WHERE `id` = $id ";
+        foreach ($row as $key => $value) {
+            $row_array['id'] = $value[0];
+            $row_array['title'] = $value[1];
+            $row_array['description'] = htmlspecialchars($value[2], ENT_QUOTES);
+            $row_array['avatar'] = "/images/easyblog_cavatar/" . $value[3];
+            $row_array['parent_id'] = $value[4];
+            $row_array['private'] = $value[5];
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadAssocList();
+            array_push($return_arr, $row_array);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($return_arr);
+        jexit();
+    }
 
-		foreach($row as $val) {
-		  $row_array['article_id'] = $val['id'];
-		  $row_array['title'] = $val['title'];
-		  $row_array['introtext'] = htmlspecialchars($val['introtext'],ENT_QUOTES);
-		  $row_array['fulltext'] = htmlspecialchars($val['fulltext'],ENT_QUOTES);
-		  $row_array['language'] =$val['language'];
-		  $row_array['featured'] =$val['featured'];
-		  $row_array['hits'] =$val['hits'];
+    //index.php?option=com_hoicoiapi&task=easyblog_posts&catid=1
+    public function easyblog_posts() {
 
-		  array_push($return_arr,$row_array);
-		}
-		  
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+        $jinput = JFactory::getApplication()->input;
+        $cat_id = $jinput->get('catid', 1);
+        $return_arr = array();
+        $query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `category_id` = $cat_id";
 
-	//index.php?option=com_hoicoiapi&task=k2_categories
-	public function k2_categories(){
-		
-		$return_arr = array();
-		$query = "SELECT id,name,description,image,language,parent FROM `#__k2_categories` WHERE `published` = 1 ";
+        $db = &JFactory::getDBO();
+        $db->setQuery($query);
+        $row = $db->loadRowList();
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
+        foreach ($row as $key => $value) {
+            $row_array['id'] = $value[0];
+            $row_array['title'] = $value[1];
+            $row_array['intro'] = htmlspecialchars($value[2], ENT_QUOTES);
+            $row_array['content'] = htmlspecialchars($value[3], ENT_QUOTES);
+            $row_array['media'] = $value[4];
+            $row_array['frontpage'] = $value[5];
+            $row_array['private'] = $value[6];
+            $row_array['vote'] = $value[7];
+            $row_array['hits'] = $value[8];
+            $row_array['language'] = $value[9];
 
-		foreach ($row as $key => $value) {
-			$row_array['id'] = $value[0];
-			$row_array['name'] = $value[1];
-			$row_array['description'] = htmlspecialchars($value[2],ENT_QUOTES);
-			$row_array['image'] = "/media/k2/categories/".$value[3];
-			$row_array['language'] = $value[4];
-			$row_array['parent'] = $value[5];
+            array_push($return_arr, $row_array);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($return_arr);
+        jexit();
+    }
 
-			array_push($return_arr, $row_array);
-		} 
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+    //index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1
+    public function easyblog_single_post() {
 
-	//index.php?option=com_hoicoiapi&task=k2_items&catid=1
-	public function k2_items(){
-		
-		$return_arr = array();
-		$jinput = JFactory::getApplication()->input;
-		$catid = $jinput->get('catid',1);
-		$query = "SELECT id,title,introtext,language,featured FROM `#__k2_items` WHERE `published` = 1 AND `catid` = $catid";
+        $jinput = JFactory::getApplication()->input;
+        $id = $jinput->get('id', 1);
+        $return_arr = array();
+        $query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `id` = $id";
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
-		//print_r($row);
-		foreach ($row as $key => $value) {
-			$row_array['id'] = $value[0];
-			$row_array['title'] = $value[1];
-			$row_array['introtext'] = htmlspecialchars($value[2],ENT_QUOTES);
-			$row_array['image'] = "media/k2/items/cache/".md5("Image".$value[0])."_XL.jpg";
-			$row_array['featured'] = $value[4];
-			$row_array['language'] = $value[3];
-			array_push($return_arr, $row_array);
-		} 
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+        $db = &JFactory::getDBO();
+        $db->setQuery($query);
+        $row = $db->loadRowList();
 
-	//index.php?option=com_hoicoiapi&task=k2_single_item&id=2
-	public function k2_single_item(){
-		
-		$return_arr = array();
-		$jinput = JFactory::getApplication()->input;
-		$id = $jinput->get('id',1);
-		$query = "SELECT id,title,introtext,language,featured FROM `#__k2_items` WHERE `published` = 1 AND `id` = $id";
+        foreach ($row as $key => $value) {
+            $row_array['id'] = $value[0];
+            $row_array['title'] = $value[1];
+            $row_array['intro'] = htmlspecialchars($value[2], ENT_QUOTES);
+            $row_array['content'] = htmlspecialchars($value[3], ENT_QUOTES);
+            $row_array['media'] = $value[4];
+            $row_array['frontpage'] = $value[5];
+            $row_array['private'] = $value[6];
+            $row_array['vote'] = $value[7];
+            $row_array['hits'] = $value[8];
+            $row_array['language'] = $value[9];
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
-		//print_r($row);
-		foreach ($row as $key => $value) {
-			$row_array['id'] = $value[0];
-			$row_array['title'] = $value[1];
-			$row_array['introtext'] = htmlspecialchars($value[2],ENT_QUOTES);
-			$row_array['image'] = "media/k2/items/cache/".md5("Image".$value[0])."_XL.jpg";
-			$row_array['featured'] = $value[4];
-			$row_array['language'] = $value[3];
-			array_push($return_arr, $row_array);
-		} 
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+            array_push($return_arr, $row_array);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($return_arr);
+        jexit();
+    }
 
-	//index.php?option=com_hoicoiapi&task=easyblog_categories
-	public function easyblog_categories(){
-		
-		$return_arr = array();
-		$query = "SELECT id,title,description,avatar,parent_id,private FROM `#__easyblog_category` WHERE `published` = 1 ";
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getContents
+    public function getContents() {
+        $output = array();
+        $db = JFactory::getDbo();
+        $db->query(true);
+        $query = "SELECT * FROM `#__categories` WHERE `extension`  = 'com_content'";
+        $db->setQuery($query);
+        $items = $db->loadAssocList();
+        if ($items && !$this->input->get('catid')) {
+            foreach ($items as $item) {
+                $output[] = $item;
+            }
+        } elseif ($this->input->get('catid')) {
+            include_once JPATH_ROOT . '/components/com_content/models/articles.php';
+            $model = new ContentModelArticles();
+            $model->setState('filter.category_id', $this->input->get('catid'));
+            $items = $model->getItems();
+            foreach ($items as $item) {
+                $output[] = $item;
+            }
+        } elseif ($this->input->get('id')) {
+            include_once JPATH_ROOT . '/components/com_content/models/article.php';
+            $model = new ContentModelArticle();
+            $output = $model->getItem($this->input->get('id'));
+        }
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
+        header('Content-Type: application/json');
+        echo json_encode($output);
+        jexit();
+    }
 
-		foreach ($row as $key => $value) {
-			$row_array['id'] = $value[0];
-			$row_array['title'] = $value[1];
-			$row_array['description'] = htmlspecialchars($value[2],ENT_QUOTES);
-			$row_array['avatar'] = "/images/easyblog_cavatar/".$value[3];
-			$row_array['parent_id'] = $value[4];
-			$row_array['private'] = $value[5];
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getKunana
+    public function getKunana() {
+        if (!file_exists(include_once JPATH_ROOT . '/components/com_kunena/models/category.php')) {
+            jexit("You don't have install Kunena");
+        }
+        include_once JPATH_ROOT . '/components/com_kunena/models/category.php';
+        include_once JPATH_ROOT . '/libraries/kunena/attachment/helper.php';
 
-			array_push($return_arr, $row_array);
-		} 
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+        $output = array();
+        $model = new KunenaModelCategory();
+        $items = KunenaForumCategoryHelper::getCategories();
 
-	//index.php?option=com_hoicoiapi&task=easyblog_posts&catid=1
-	public function easyblog_posts(){
-		
-		$jinput = JFactory::getApplication()->input;
-		$cat_id = $jinput->get('catid',1);
-		$return_arr = array();
-		$query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `category_id` = $cat_id";
+        $input = $this->input;
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
+        if ($items && !$input->get("catid") && !$input->get("id")) {
+            foreach ($items as $item) {
+                $data = get_object_vars($item);
+                $output[] = $data;
+            }
+        } elseif ($input->get("catid")) {
+            $output = array();
+            $model->setState('item.id', $input->get("catid", 1));
+            $items = $model->getTopics();
+            foreach ($items as $item) {
+                $data = get_object_vars($item);
+                $output[] = $data;
+            }
+        } elseif ($input->get("id")) {
+            $output = array();
+            include_once JPATH_ROOT . '/components/com_kunena/models/topic.php';
+            include_once JPATH_ROOT . '/libraries/kunena/attachment/helper.php';
+            $model = new KunenaModelTopic();
+            $model->setState('item.mesid', $input->get("catid", 1));
+            $items = $model->getMessages();
+            foreach ($items as $item) {
+                $data = get_object_vars($item);
+                $data['attachment'] = KunenaAttachmentHelper::getByMessage($item->id);
+                $output[] = $data;
+            }
+        }
 
-		foreach ($row as $key => $value) {
-			$row_array['id'] = $value[0];
-			$row_array['title'] = $value[1];
-			$row_array['intro'] = htmlspecialchars($value[2],ENT_QUOTES);
-			$row_array['content'] = htmlspecialchars($value[3],ENT_QUOTES);
-			$row_array['media'] = $value[4];
-			$row_array['frontpage'] = $value[5];
-			$row_array['private'] = $value[6];
-			$row_array['vote'] = $value[7];
-			$row_array['hits'] = $value[8];
-			$row_array['language'] = $value[9];
+        header('Content-Type: application/json');
+        echo json_encode($output);
+        jexit();
+    }
 
-			array_push($return_arr, $row_array);
-		} 
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getK2
+    public function getK2() {
+        if (!file_exists(JPATH_ROOT . '/components/com_k2/models/itemlist.php') || !file_exists(JPATH_ROOT . '/modules/mod_k2_content/helper.php')) {
+            jexit("You must need to install K2 component & module");
+        }
+        include_once JPATH_ROOT . '/components/com_k2/models/itemlist.php';
 
-	//index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1
-	public function easyblog_single_post(){
-		
-		$jinput = JFactory::getApplication()->input;
-		$id = $jinput->get('id',1);
-		$return_arr = array();
-		$query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `id` = $id";
+        $output = array();
+        $model = new K2ModelItemlist();
+        $db = JFactory::getDBO();
+        $query = "SELECT id,parent,name,description,alias,image,language FROM #__k2_categories WHERE published=1  AND trash=0";
+        $db->setQuery($query);
+        $items = $db->loadObjectList();
 
-		$db = &JFactory::getDBO(); 
-		$db->setQuery($query);
-		$row = $db->loadRowList();
+        if ($items && !$this->input->get("catid") && !$this->input->get("id")) {
+            foreach ($items as $item) {
+                $item = get_object_vars($item);
+                if ($item["image"]) {
+                    $item["image"] = "/media/k2/categories/" . $item["image"];
+                }
+                $output[] = $item;
+            }
+        } elseif ($this->input->get("catid")) {
+            $model->set("task", "category");
+            $model->set("id", $this->input->get("catid"));
+            $total = $model->countCategoryItems($this->input->get("catid"));
 
-		foreach ($row as $key => $value) {
-			$row_array['id'] = $value[0];
-			$row_array['title'] = $value[1];
-			$row_array['intro'] = htmlspecialchars($value[2],ENT_QUOTES);
-			$row_array['content'] = htmlspecialchars($value[3],ENT_QUOTES);
-			$row_array['media'] = $value[4];
-			$row_array['frontpage'] = $value[5];
-			$row_array['private'] = $value[6];
-			$row_array['vote'] = $value[7];
-			$row_array['hits'] = $value[8];
-			$row_array['language'] = $value[9];
+            include_once JPATH_ROOT . '/modules/mod_k2_content/helper.php';
+            $module = JModuleHelper::getModule('mod_k2_content');
+            $params = new JRegistry($module->params);
+            $params['itemImage'] = 1;
+            $params['itemCount'] = (int) $total;
+            $params['itemIntroText'] = 1;
+            $params['itemVideo'] = 1;
+            $items = modK2ContentHelper::getItems($params);
+            foreach ($items as $item) {
+                $item = get_object_vars($item);
+                if ($item['params'] || $item['categoryparams']) {
+                    unset($item['params']);
+                    unset($item['categoryparams']);
+                }
+                if ($item['catid'] == $this->input->get("catid")) {
+                    $output[] = $item;
+                }
+            }
+            //
+        } elseif ($this->input->get("id")) {
 
-			array_push($return_arr, $row_array);
-		} 
-		header('Content-Type: application/json');
-		echo json_encode($return_arr);
-		jexit();
-	}
+            include_once JPATH_ROOT . '/modules/mod_k2_content/helper.php';
+            $module = JModuleHelper::getModule('mod_k2_content');
+            $params = new JRegistry($module->params);
+            $params['itemImage'] = 1;
+            $params['itemCount'] = (int) $total;
+            $params['itemIntroText'] = 1;
+            $params['itemVideo'] = 1;
+            $params['items'] = $this->input->get("id");
+            $items = modK2ContentHelper::getItems($params);
+
+            foreach ($items as $item) {
+                $item = get_object_vars($item);
+                if ($item['params'] || $item['categoryparams']) {
+                    unset($item['params']);
+                    unset($item['categoryparams']);
+                }
+                if ($item['id'] == $this->input->get("id")) {
+                    $output[] = $item;
+                }
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($output);
+        jexit();
+    }
+
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getVM&lan=en_gb
+    public function getVM() {
+
+        if (!file_exists(JPATH_ROOT . '/administrator/components/com_virtuemart/helpers/config.php')) {
+
+            jexit("You don't have install VM");
+        }
+        include_once JPATH_ROOT . '/administrator/components/com_virtuemart/helpers/config.php';
+        include_once JPATH_ROOT . '/administrator/components/com_virtuemart/models/category.php';
+        include_once JPATH_ROOT . '/administrator/components/com_virtuemart/models/media.php';
+
+        $output = array();
+        VmConfig::$vmlang = $this->input->get("lan", "en_gb", "STRING");
+        $model = new VirtueMartModelCategory();
+        $items = $model->getCategories();
+        $mediaModel = new VirtueMartModelMedia();
+
+        if ($items && !$this->input->get("catid") && !$this->input->get("id")) {
+            foreach ($items as $key => $item) {
+
+                $item = get_object_vars($item);
+                $item['media'] = $mediaModel->getFiles("", "", "", $item['virtuemart_category_id']);
+                $output[] = $item;
+            }
+        } elseif ($this->input->get("catid")) {
+            include_once JPATH_ROOT . '/administrator/components/com_virtuemart/models/product.php';
+            $model = new VirtueMartModelProduct();
+            $items = $model->getProductsInCategory($this->input->get("catid"));
+
+            foreach ($items as $key => $item) {
+
+                $item = get_object_vars($item);
+                $item['media'] = $mediaModel->getFiles("", "", $item['virtuemart_product_id']);
+                //echo $item['virtuemart_product_id'];
+                $output[] = $item;
+            }
+        } elseif ($this->input->get("id")) {
+            include_once JPATH_ROOT . '/administrator/components/com_virtuemart/models/product.php';
+            $model = new VirtueMartModelProduct();
+            $item = get_object_vars($model->getProduct($this->input->get("id")));
+            $item['media'] = $mediaModel->getFiles("", "", $item['virtuemart_product_id']);
+            $output[] = $item;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($output);
+        jexit();
+    }
+
+    // http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getHika
+    public function getHika() {
+
+        if (!file_exists(JPATH_ROOT . '/administrator/components/com_hikashop/helpers/helper.php')) {
+            jexit("You don't have Hikashop installed");
+        }
+        include_once JPATH_ROOT . '/administrator/components/com_hikashop/helpers/helper.php';
+        include_once JPATH_ROOT . '/administrator/components/com_hikashop/classes/category.php';
+
+        $output = array();
+        $model = new hikashopCategoryClass();
+        $items = $model->getList();
+        if ($items && !$this->input->get("catid") && !$this->input->get("id")) {
+
+            foreach ($items as $item) {
+                $item = get_object_vars($item);
+                $item['media'] = $this->getHikaImages($item['category_id']);
+                $output[] = $item;
+            }
+        } elseif ($this->input->get("catid")) {
+            $db = JFactory::getDbo();
+            $query = "SELECT product_id FROM #__hikashop_product_category WHERE" . $db->quoteName('category_id') . " = " . $db->quote($this->input->get("catid"));
+            $db->setQuery($query);
+            $items = $db->loadColumn();
+
+            include_once JPATH_ROOT . '/administrator/components/com_hikashop/classes/product.php';
+            $model = new hikashopProductClass();
+            if ($model->getProducts($items)) {
+                $products = $model->all_products;
+                foreach ($products as $product) {
+                    $output[] = $product;
+                }
+            }
+        } elseif ($this->input->get("id")) {
+            include_once JPATH_ROOT . '/administrator/components/com_hikashop/classes/product.php';
+            $model = new hikashopProductClass();
+            $model->getProducts($this->input->get("id"));
+            $product = $model->products;
+            $output = $product[$this->input->get("id")];
+        }
+        header('Content-Type: application/json');
+        echo json_encode($output);
+        jexit();
+    }
+
+    protected function getHikaImages($id) {
+        include_once JPATH_ROOT . '/administrator/components/com_hikashop/helpers/helper.php';
+        include_once JPATH_ROOT . '/administrator/components/com_hikashop/helpers/image.php';
+        $db = JFactory::getDBO();
+        $query = "SELECT file_path FROM #__hikashop_file WHERE file_ref_id={$id} ";
+        $db->setQuery($query);
+        $items = $db->loadAssocList();
+        $output = array();
+        $model = new hikashopImageHelper();
+        foreach ($items as $item) {
+            $output[] = get_object_vars($model->getThumbnail($item['file_path']));
+        }
+        return $output;
+    }
 
 }

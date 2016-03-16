@@ -7,7 +7,7 @@
 	<authorUrl>www.hoicoimasti.com</authorUrl>
 	<copyright>Copyright (C) 2014  Open Source Matters. All rights reserved.</copyright>	
 	<license>GNU General Public License version 2 or later</license>
-	<version>2.0</version>
+	<version>3.0</version>
 	<description>With this component you will get json output of Joomla articles, categories and virtuemart products, categories</description>
 
 	<files folder="site">
