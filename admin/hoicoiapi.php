@@ -75,15 +75,15 @@ defined('_JEXEC') or die('Resrtricted Access');
 	</tr>
 	<tr>
 		<td>Kunena Categories</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getkunena" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getkunena</a></td>
 	</tr>
 	<tr>
 		<td>Kunena Items in a category</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&catid=1</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getkunena&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getkunena&catid=1</a></td>
 	</tr>
 	<tr>
 		<td>Kunena Single Items</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getKunana&id=2</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getkunena&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getkunena&id=2</a></td>
 	</tr>
 	<tr>
 		<td>HikaShop Categories</td>
