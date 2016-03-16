@@ -4,12 +4,10 @@ With this component you can easily retrieve data from Joomla site for mobile dev
 Most of the mobile apps use JSON array to collect data from webserver. This extension will converted Joomla information into JSON format . So apps developer can collect information quickly & easily. 
 
 <pre>
-What can you do with this ?
-> Can get categories, articles of Joomla content.
-> Can get Virtuemart products & categories with images,price etc.
-> Can make authentication directly using Joomla username & password
-> Can make user registration.
-> Support for K2 & easyblog.
+Supported Extensions/Features
+> Joomla authentication directly using Joomla username & password
+> Joomla registration
+> Joomla contents, K2, easyblog, Virtuemart, Hikashop, Kunena Forum ....
 </pre>
  
 
