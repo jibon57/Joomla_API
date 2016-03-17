@@ -182,7 +182,7 @@ class hoicoiapiController extends JControllerLegacy {
         $query = "SELECT * FROM `#__categories` WHERE `extension`  = 'com_content'";
         $db->setQuery($query);
         $items = $db->loadAssocList();
-        if ($items && !$this->input->get('catid')) {
+        if ($items && !$this->input->get('catid') && !$this->input->get('id')) {
             foreach ($items as $item) {
                 $output[] = $item;
             }
