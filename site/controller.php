@@ -87,90 +87,62 @@ class hoicoiapiController extends JControllerLegacy {
         jexit();
     }
 
-    //index.php?option=com_hoicoiapi&task=easyblog_categories
-    public function easyblog_categories() {
+    //index.php?option=com_hoicoiapi&task=getEasyblog
 
-        $return_arr = array();
-        $query = "SELECT id,title,description,avatar,parent_id,private FROM `#__easyblog_category` WHERE `published` = 1 ";
-
-        $db = &JFactory::getDBO();
-        $db->setQuery($query);
-        $row = $db->loadRowList();
-
-        foreach ($row as $key => $value) {
-            $row_array['id'] = $value[0];
-            $row_array['title'] = $value[1];
-            $row_array['description'] = htmlspecialchars($value[2], ENT_QUOTES);
-            $row_array['avatar'] = "/images/easyblog_cavatar/" . $value[3];
-            $row_array['parent_id'] = $value[4];
-            $row_array['private'] = $value[5];
-
-            array_push($return_arr, $row_array);
+    public function getEasyblog() {
+        if (!file_exists(JPATH_ROOT . "/administrator/components/com_easyblog/includes/easyblog.php")) {
+            jexit("You don't have install EasyBlog");
         }
-        header('Content-Type: application/json');
-        echo json_encode($return_arr);
-        jexit();
-    }
+        include_once JPATH_ROOT . "/administrator/components/com_easyblog/includes/easyblog.php";
+        include_once JPATH_ROOT . "/administrator/components/com_easyblog/models/categories.php";
 
-    //index.php?option=com_hoicoiapi&task=easyblog_posts&catid=1
-    public function easyblog_posts() {
+        $model = new EasyBlogModelCategories();
+        $items = $model->getCategoriesHierarchy();
+        $output = array();
 
-        $jinput = JFactory::getApplication()->input;
-        $cat_id = $jinput->get('catid', 1);
-        $return_arr = array();
-        $query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `category_id` = $cat_id";
+        if ($items && !$this->input->get("catid") && !$this->input->get("id")) {
 
-        $db = &JFactory::getDBO();
-        $db->setQuery($query);
-        $row = $db->loadRowList();
-
-        foreach ($row as $key => $value) {
-            $row_array['id'] = $value[0];
-            $row_array['title'] = $value[1];
-            $row_array['intro'] = htmlspecialchars($value[2], ENT_QUOTES);
-            $row_array['content'] = htmlspecialchars($value[3], ENT_QUOTES);
-            $row_array['media'] = $value[4];
-            $row_array['frontpage'] = $value[5];
-            $row_array['private'] = $value[6];
-            $row_array['vote'] = $value[7];
-            $row_array['hits'] = $value[8];
-            $row_array['language'] = $value[9];
-
-            array_push($return_arr, $row_array);
+            foreach ($items as $item) {
+                $item = get_object_vars($item);
+                if ($item['avatar']) {
+                    $item['avatar'] = "/images/easyblog_cavatar/" . $item['avatar'];
+                }
+                $output[] = $item;
+            }
+        } elseif ($this->input->get("catid")) {
+            include_once JPATH_ROOT . '/administrator/components/com_easyblog/models/blog.php';
+            $model = new EasyBlogModelBlog();
+            $items = $model->getBlogsBy('', '', '', 0, EBLOG_FILTER_PUBLISHED, null, true, '', false, false, true, '', $this->input->get("catid"), null, 'listlength', '');
+            foreach ($items as $item) {
+                $output[] = get_object_vars($item);
+            }
+        } elseif ($this->input->get("id")) {
+            $post = EB::post($this->input->get("id"));
+            $output = get_object_vars($post);
+            $output['intro'] = htmlspecialchars($post->getContent(), ENT_QUOTES);
+            $output['comments'] = $post->getComments();
+            $output['image'] = $post->getImage();
+            $output['videos'] = $post->videos;
+            $output['author'] = $post->getAuthor()->nickname;
+            $output['author_link'] = $post->getAuthor()->getPermalink();
+            $output['author_avatar'] = $post->getAuthor()->avatar;
+            //$output->getAuthor() = "";
+            if ($output['comments']) {
+                foreach ($output['comments'] as $comment) {
+                    //$comment[] = get_object_vars($comment);
+                    if (empty($comment->name)) {
+                        $comment->name = $comment->author->nickname;
+                    }
+                    unset($comment->author);
+                }
+            }
+            unset($output['meta'], $output['config'], $output['doc'], $output['app'], $output['input']
+                    , $output['my'], $output['user'], $output['acl'], $output['string'], $output['jconfig']
+                    , $output['original'], $output['revision'], $output['post']);
         }
+
         header('Content-Type: application/json');
-        echo json_encode($return_arr);
-        jexit();
-    }
-
-    //index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1
-    public function easyblog_single_post() {
-
-        $jinput = JFactory::getApplication()->input;
-        $id = $jinput->get('id', 1);
-        $return_arr = array();
-        $query = "SELECT id,title,intro,content,image,frontpage,private,vote,hits,language FROM `#__easyblog_post` WHERE `published` = 2  AND `id` = $id";
-
-        $db = &JFactory::getDBO();
-        $db->setQuery($query);
-        $row = $db->loadRowList();
-
-        foreach ($row as $key => $value) {
-            $row_array['id'] = $value[0];
-            $row_array['title'] = $value[1];
-            $row_array['intro'] = htmlspecialchars($value[2], ENT_QUOTES);
-            $row_array['content'] = htmlspecialchars($value[3], ENT_QUOTES);
-            $row_array['media'] = $value[4];
-            $row_array['frontpage'] = $value[5];
-            $row_array['private'] = $value[6];
-            $row_array['vote'] = $value[7];
-            $row_array['hits'] = $value[8];
-            $row_array['language'] = $value[9];
-
-            array_push($return_arr, $row_array);
-        }
-        header('Content-Type: application/json');
-        echo json_encode($return_arr);
+        echo json_encode($output);
         jexit();
     }
 

@@ -63,15 +63,15 @@ defined('_JEXEC') or die('Resrtricted Access');
 	</tr>
 	<tr>
 		<td>Easyblog Categories</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_categories" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_categories</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getEasyblog" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getEasyblog</a></td>
 	</tr>
 	<tr>
 		<td>Easyblog Posts in a category</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_posts&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_posts&catid=1</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getEasyblog&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getEasyblog&catid=1</a></td>
 	</tr>
 	<tr>
 		<td>Easyblog Single Post</td>
-		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=easyblog_single_post&id=1</a></td>
+		<td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getEasyblog&id=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getEasyblog&id=1</a></td>
 	</tr>
 	<tr>
 		<td>Kunena Categories</td>
