@@ -1,6 +1,6 @@
 # Joomla API for mobile apps (Android, Iphone/Ipad & External site)
 
-With this component you can easily retrieve data from Joomla site for mobile devices or other external website. You can use this API if you want to published Joomla contnent articles, K2 items, easyblog posts or virtuemart products in another PHP site. This component will work both for Joomla 2.5 & 3.X.
+With this component you can easily retrieve data from Joomla site for mobile devices or other external website. You can use this API if you want to published Joomla articles, K2 items, easyblog posts or virtuemart products in another PHP site. This component will work both for Joomla 2.5 & 3.X.
 Most of the mobile apps use JSON array to collect data from webserver. This extension will converted Joomla information into JSON format . So apps developer can collect information quickly & easily. 
 
 <pre>
