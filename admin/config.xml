@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+   
+	<fieldset
+		name="tokenKey"
+		label="Access Token"
+		description="">
+		<field name="token" pattern=".{52,}" required="required" type="text" default="" label="Token Key" description="Please use at least 52 characters long token key."  />		
+	</fieldset>	
+	
+</config>

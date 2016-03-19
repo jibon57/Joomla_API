@@ -22,7 +22,8 @@
 
 		<files folder="admin">
 			<filename>index.html</filename>	
-			<filename>hoicoiapi.php</filename>	
+			<filename>hoicoiapi.php</filename>
+			<filename>config.xml</filename>			
 		</files>
 				
 	</administration>
