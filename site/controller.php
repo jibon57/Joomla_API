@@ -118,27 +118,24 @@ class hoicoiapiController extends JControllerLegacy {
             }
         } elseif ($this->input->get("id")) {
             $post = EB::post($this->input->get("id"));
-            $output = get_object_vars($post);
+            $output = get_object_vars($post->original);
             $output['intro'] = htmlspecialchars($post->getContent(), ENT_QUOTES);
-            $output['comments'] = $post->getComments();
             $output['image'] = $post->getImage();
             $output['videos'] = $post->videos;
             $output['author'] = $post->getAuthor()->nickname;
             $output['author_link'] = $post->getAuthor()->getPermalink();
             $output['author_avatar'] = $post->getAuthor()->avatar;
-            //$output->getAuthor() = "";
+            $output['comments'] = $post->getComments();
+            $output['custom_fields'] = $post->getCustomFields();
+
             if ($output['comments']) {
                 foreach ($output['comments'] as $comment) {
-                    //$comment[] = get_object_vars($comment);
                     if (empty($comment->name)) {
                         $comment->name = $comment->author->nickname;
                     }
                     unset($comment->author);
                 }
             }
-            unset($output['meta'], $output['config'], $output['doc'], $output['app'], $output['input']
-                    , $output['my'], $output['user'], $output['acl'], $output['string'], $output['jconfig']
-                    , $output['original'], $output['revision'], $output['post']);
         }
 
         header('Content-Type: application/json');
