@@ -103,5 +103,17 @@ if ($count < 52 || !$count = 52) {
         <td>HikaShop Single Items</td>
         <td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&id=2</a></td>
     </tr>
+    <tr>
+        <td>AdsManage Categories</td>
+        <td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getAdsm" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika</a></td>
+    </tr>
+    <tr>
+        <td>AdsManage Items in a category</td>
+        <td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getAdsm&catid=1" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&catid=1</a></td>
+    </tr>
+    <tr>
+        <td>AdsManage Single Items</td>
+        <td><a href="<?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getAdsm&id=2" target="_blank"><?php echo JURI::root(); ?>index.php?option=com_hoicoiapi&task=getHika&id=2</a></td>
+    </tr>
 </table>
 
