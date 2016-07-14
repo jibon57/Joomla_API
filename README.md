@@ -7,7 +7,7 @@ Most of the mobile apps use JSON array to collect data from webserver. This exte
 Supported Extensions/Features
 > Joomla authentication directly using Joomla username & password
 > Joomla registration
-> Joomla contents, K2, easyblog, Virtuemart, Hikashop, Kunena Forum ....
+> Joomla contents, K2, easyblog, Virtuemart, Hikashop, Kunena Forum, AdsManager ....
 </pre>
  
 
