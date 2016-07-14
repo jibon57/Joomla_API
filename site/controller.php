@@ -403,5 +403,47 @@ class hoicoiapiController extends JControllerLegacy {
         }
         return $output;
     }
+    
+    //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getAdsm
+    //Image path: http://YOURSITE.COM/images/com_adsmanager/contents/FILE_NAME
+    public function getAdsm() {
+
+        if (!file_exists(JPATH_ROOT . '/components/com_adsmanager/lib/core.php')) {
+            jexit("You don't have AdsManager installed");
+        }
+        include_once JPATH_ROOT . '/components/com_adsmanager/lib/core.php';
+        include_once JPATH_ROOT . '/administrator/components/com_adsmanager/models/category.php';
+        include_once JPATH_ROOT . '/administrator/components/com_adsmanager/models/content.php';
+
+        $output = array();
+        $model = new AdsmanagerModelCategory();
+        $items = $model->getCategories(true);
+        $input = $this->input;
+
+        if ($items && !$input->get("catid") && !$input->get("id")) {
+            foreach ($items as $item) {
+                $data = get_object_vars($item);
+                $output[] = $data;
+            }
+        } elseif ($input->get("catid")) {
+            $model = new AdsmanagerModelContent();
+            $filters['category'] = $catid;
+            $items = $model->getContents($filters);
+
+            foreach ($items as $item) {
+                $data = get_object_vars($item);
+                $output[] = $data;
+            }
+        } elseif ($input->get("id")) {
+            $model = new AdsmanagerModelContent();
+            $item = $model->getContent($input->get("id"), true);
+            $data = get_object_vars($item);
+            $output[] = $data;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($output);
+        jexit();
+    }
 
 }
