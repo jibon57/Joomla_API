@@ -17,6 +17,42 @@ defined('_JEXEC') || die('=;)');
  * @subpackage Controllers
  */
 class hoicoiapiController extends JControllerLegacy {
+	
+	public function __construct(){
+		parent::__construct();
+		
+		$params = JComponentHelper::getParams('com_hoicoiapi');
+		$token = trim($params->get('token'));
+		$get = trim($this->input->get('token', '0', 'STRING'));
+
+		if (!$token || !strcmp($token, $get) == 0) {
+			
+			$output = array(
+				'status' => false,
+				'msg' => 'Please use correct token with URL'
+			);
+			$this->showOutput($output);
+		}
+	}
+	
+	private function showOutput($output){
+		
+		$input = $this->input;
+		$callback = $input->get('callback', null, 'CMD');
+		$result = "";
+		
+		if($callback !== null){
+			$result =  $callback . "(".json_encode($output).");";
+		}else{
+			$result = json_encode($output);
+		}
+		
+		header('Content-type: application/json');
+		header('Content-disposition: attachment; filename=getajax.json');
+		header('Access-Control-Allow-Origin: *'); 
+		echo $result;
+		jexit();
+	}
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=login&username=test&pass=test
     public function login() {
@@ -45,9 +81,8 @@ class hoicoiapiController extends JControllerLegacy {
                 'message' => 'login failed'
             );
         }
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        jexit();
+		
+        $this->showOutput($data);
     }
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=registration&name=NAME&username=USERNAME&passwd=PASSWORD&email=EMAIL
@@ -82,9 +117,7 @@ class hoicoiapiController extends JControllerLegacy {
             'message' => $status
         );
 
-        header('Content-Type: application/json');
-        echo json_encode($message);
-        jexit();
+        $this->showOutput($message);
     }
 
     //index.php?option=com_hoicoiapi&task=getEasyblog
@@ -138,9 +171,7 @@ class hoicoiapiController extends JControllerLegacy {
             }
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+		$this->showOutput($output);
     }
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getContents
@@ -169,9 +200,7 @@ class hoicoiapiController extends JControllerLegacy {
             $output = $model->getItem($this->input->get('id'));
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+        $this->showOutput($output);
     }
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getkunena
@@ -215,9 +244,7 @@ class hoicoiapiController extends JControllerLegacy {
             }
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+        $this->showOutput($output);
     }
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getK2
@@ -290,9 +317,7 @@ class hoicoiapiController extends JControllerLegacy {
             }
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+       $this->showOutput($output);
     }
 
     //http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getVM&lan=en_gb
@@ -339,9 +364,7 @@ class hoicoiapiController extends JControllerLegacy {
             $output[] = $item;
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+        $this->showOutput($output);
     }
 
     // http://YOURSITE.COM/index.php?option=com_hoicoiapi&task=getHika
@@ -384,9 +407,7 @@ class hoicoiapiController extends JControllerLegacy {
             $product = $model->products;
             $output = $product[$this->input->get("id")];
         }
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+       $this->showOutput($output);
     }
 
     protected function getHikaImages($id) {
@@ -441,9 +462,7 @@ class hoicoiapiController extends JControllerLegacy {
             $output[] = $data;
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($output);
-        jexit();
+        $this->showOutput($output);
     }
 
 }
