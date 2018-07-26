@@ -1,0 +1,21 @@
+<updates>
+	<update>
+		<name>Hoicoiapi</name>
+		<description>With this component you will get json output of Joomla articles, categories and virtuemart products, categories</description>
+		<element>com_hoicoiapi</element>
+		<type>component</type>
+		<version>3.2</version>
+		<infourl title="Joomla!">https://github.com/jibon57/Joomla_API</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/jibon57/Joomla_API/archive/master.zip</downloadurl>
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Jibon L. Costa</maintainer>
+		<maintainerurl>https://www.hoicoimasti.com/</maintainerurl>
+		<section>STS</section>
+		<targetplatform name="joomla" version="3.[0123456789]" />
+		<php_minimum>5.3.10</php_minimum>
+	</update>
+</updates>
